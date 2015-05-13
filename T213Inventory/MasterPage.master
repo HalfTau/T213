@@ -4,9 +4,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head runat="server">
+       <!-- Inventory system designed by Bryan Sands and Rick Stice for use in the OC T213 lab. -->
        <title>T213 Inventory</title>
        <link href="style.css" rel="stylesheet" />
    </head>
+
    <body>
       <form id="form1" runat="server">
           <section id="header">
@@ -16,7 +18,7 @@
           <section id="side">
              <section id="sideElement">
              <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="Default.aspx">Home</a></li>
              </ul>
              </section>
           </section>

@@ -22,7 +22,8 @@ public partial class _Default : System.Web.UI.Page
 
     public void btnSearch_onClick(Object sender, EventArgs e)
     {
-        Response.BufferOutput = true;
-        Response.Redirect("Search.aspx?query=" + TextBox1.Text);
+        //Response.BufferOutput = true;
+        //Response.Redirect("Search.aspx?query=" + TextBox1.Text);
+        Label2.Text = TextBox1.Text;
     }
 }

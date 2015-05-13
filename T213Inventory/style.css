@@ -9,7 +9,7 @@ body {
 }
 
 #header {
-   width: 10em;
+   width: 100%;
    margin: 10px;
 }
 
@@ -17,8 +17,15 @@ body {
    float: left;
    clear: both;
    width:12em;
-   height: 4em;
+   height: 3em;
    margin-bottom: 10px;
+}
+
+#header p{
+   margin: 0% 35%;
+   color: #FFFFFF;
+   font-size: 2em;
+   font-variant: small-caps;
 }
 
 #content {
