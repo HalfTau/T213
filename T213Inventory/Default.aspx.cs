@@ -6,56 +6,102 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.OleDb;
 using System.Data;
-using System.Web;
 
 public partial class _Default : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected void Page_Load( object sender, EventArgs e )
     {
         
-
-    }
-    protected void TextBox1_TextChanged(object sender, EventArgs e)
-    {
-
     }
 
-    public void btnWrite_onClick(Object sender, EventArgs e)
+    protected void TxtInput_TextChanged( object sender, EventArgs e )
     {
-        string ConStr = "";  
-        //getting the path of the file     
-        string path = Server.MapPath("Book2.xlsx");  
-        //connection string for that file which extantion is .xlsx    
-        ConStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=\"Excel 12.0;ReadOnly=False;HDR=Yes;\"";  
-        //making query    
-        string query = "INSERT INTO [Sheet1$] ([Name]) VALUES('" + TextBox1.Text + "')";  
-        //Providing connection    
-        OleDbConnection conn = new OleDbConnection(ConStr);  
-        //checking that connection state is closed or not if closed the     
-        //open the connection    
-        if (conn.State == ConnectionState.Closed)  
-        {  
-            conn.Open();  
-        }  
-        //create command object    
-        OleDbCommand cmd = new OleDbCommand(query, conn);  
-        int result = cmd.ExecuteNonQuery();  
-        if (result > 0)  
-        {  
-            Response.Write("<script>alert('Sucessfully Data Inserted Into Excel')</script>");  
-        }  
-        else  
-        {  
-            Response.Write("<script>alert('Sorry!\n Insertion Failed')</script>");  
-        }  
-        conn.Close();  
-          
+        
     }
 
-    public void btnSearch_onClick(Object sender, EventArgs e)
+    public void btnWrite_onClick( Object sender, EventArgs e )
     {
-        //Response.BufferOutput = true;
-        //Response.Redirect("Search.aspx?query=" + TextBox1.Text);
-        Label2.Text = TextBox1.Text;
+        //Local handle for the excel file path
+        string path = Server.MapPath("Book2.xlsx");
+
+        //String value used for opening the excel file connection
+        string connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + 
+                          path + ";Extended Properties=\"Excel 12.0;ReadOnly=False;HDR=Yes;\"";
+
+        //Canned query as a local string
+        string query = "INSERT INTO [Sheet1$] ([Name]) VALUES('" + txtInput.Text + "')";
+
+        OleDbConnection connDB = new OleDbConnection( connStr );
+
+        if ( connDB.State == ConnectionState.Closed )
+        {  connDB.Open();  }
+
+        OleDbCommand cmdDB = new OleDbCommand( query, connDB );
+        int result = cmdDB.ExecuteNonQuery();
+
+        if ( result > 0 )
+        {  Response.Write( "<script>alert('Sucessfully Data Inserted Into Excel')</script>" );  }
+        else
+        {  Response.Write( "<script>alert('Sorry!\n Insertion Failed')</script>" );  }
+
+        connDB.Close();
+    }
+
+    public void btnSearch_onClick( Object sender, EventArgs e )
+    {
+        DataTable dt = new DataTable();
+
+     /* string connectionString = 
+        "Provider=Microsoft.Jet.OleDb.4.0; Data Source=D:\MySamplefile.xls; Extended Properties=Excel 8.0;";
+ 
+        using( OleDbConnection Connection = new OleDbConnection(connectionString) )
+        {
+            Connection.Open();
+
+            using( OleDbCommand command = new OleDbCommand() )
+            { 
+                command.Connection = Connection;
+                command.CommandText = "SELECT * FROM [EmpTable]";
+
+                using( OleDbDataAdapter adapter = new OleDbDataAdapter() )
+                {
+                    adapter.SelectCommand = command;
+                    adapter.Fill( dt );
+                }
+            } 
+        } */
+
+        //Local handle for the excel file path
+        string path = Server.MapPath( "Book2.xlsx" );
+
+        //String value used for opening the excel file connection
+        string connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + 
+                          path + ";Extended Properties=\"Excel 12.0;ReadOnly=True;HDR=Yes;\"";
+
+        //Canned query as a local string
+        string query = "SELECT * FROM [Sheet1$]"; // ([Name]) VALUES('" + txtInput.Text + "')";
+
+        OleDbConnection connDB = new OleDbConnection( connStr );
+
+        if( connDB.State == ConnectionState.Closed )
+        {  connDB.Open();  }
+
+        OleDbCommand cmdDB = new OleDbCommand( query, connDB );
+        OleDbDataAdapter adapter = new OleDbDataAdapter();
+
+        adapter.SelectCommand = cmdDB;
+        int result = adapter.Fill( dt );
+
+        //int result = cmdDB.ExecuteNonQuery();
+
+        if( result > 0 )
+        {  Response.Write( "<script>alert('Data Inserted Into Excel')</script>" );  }
+        else
+        {  Response.Write( "<script>alert('Sorry!\n Insertion Failed')</script>" );  }
+
+        connDB.Close();
+
+        GridView1.DataSource = dt;
+        GridView1.DataBind();
     }
 }
