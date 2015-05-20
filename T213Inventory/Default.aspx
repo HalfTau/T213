@@ -9,6 +9,7 @@
     <asp:Label ID="Label1" runat="server" Text="ID: "></asp:Label>
     <asp:TextBox ID="TextBox1" runat="server" ontextchanged="TextBox1_TextChanged"></asp:TextBox>
     <br /><br /><asp:Button ID="Button1" runat="server" onClick="btnSearch_onClick" Text="Button"></asp:Button>
+        <asp:Button ID="btnWrite" runat="server" Text="Write" OnClick="btnWrite_onClick" />
     <br /><br /><asp:Label ID="Label2" runat="server" Text=""></asp:Label>
     </ContentTemplate>
     </asp:UpdatePanel>

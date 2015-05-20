@@ -20,6 +20,38 @@ public partial class _Default : System.Web.UI.Page
 
     }
 
+    public void btnWrite_onClick(Object sender, EventArgs e)
+    {
+        string ConStr = "";  
+        //getting the path of the file     
+        string path = Server.MapPath("Book2.xlsx");  
+        //connection string for that file which extantion is .xlsx    
+        ConStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path + ";Extended Properties=\"Excel 12.0;ReadOnly=False;HDR=Yes;\"";  
+        //making query    
+        string query = "INSERT INTO [Sheet1$] ([Name]) VALUES('" + TextBox1.Text + "')";  
+        //Providing connection    
+        OleDbConnection conn = new OleDbConnection(ConStr);  
+        //checking that connection state is closed or not if closed the     
+        //open the connection    
+        if (conn.State == ConnectionState.Closed)  
+        {  
+            conn.Open();  
+        }  
+        //create command object    
+        OleDbCommand cmd = new OleDbCommand(query, conn);  
+        int result = cmd.ExecuteNonQuery();  
+        if (result > 0)  
+        {  
+            Response.Write("<script>alert('Sucessfully Data Inserted Into Excel')</script>");  
+        }  
+        else  
+        {  
+            Response.Write("<script>alert('Sorry!\n Insertion Failed')</script>");  
+        }  
+        conn.Close();  
+          
+    }
+
     public void btnSearch_onClick(Object sender, EventArgs e)
     {
         //Response.BufferOutput = true;
