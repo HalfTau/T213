@@ -39,11 +39,6 @@ public partial class _Default : System.Web.UI.Page
         OleDbCommand cmdDB = new OleDbCommand( query, connDB );
         int result = cmdDB.ExecuteNonQuery();
 
-        if ( result > 0 )
-        {  Response.Write( "<script>alert('Sucessfully Data Inserted Into Excel')</script>" );  }
-        else
-        {  Response.Write( "<script>alert('Sorry!\n Insertion Failed')</script>" );  }
-
         connDB.Close();
     }
 
@@ -87,6 +82,7 @@ public partial class _Default : System.Web.UI.Page
         {  connDB.Open();  }
 
         OleDbCommand cmdDB = new OleDbCommand( query, connDB );
+
         OleDbDataAdapter adapter = new OleDbDataAdapter();
 
         adapter.SelectCommand = cmdDB;
@@ -94,13 +90,9 @@ public partial class _Default : System.Web.UI.Page
 
         //int result = cmdDB.ExecuteNonQuery();
 
-        if( result > 0 )
-        {  Response.Write( "<script>alert('Data Inserted Into Excel')</script>" );  }
-        else
-        {  Response.Write( "<script>alert('Sorry!\n Insertion Failed')</script>" );  }
 
         connDB.Close();
-
+        
         GridView1.DataSource = dt;
         GridView1.DataBind();
     }
